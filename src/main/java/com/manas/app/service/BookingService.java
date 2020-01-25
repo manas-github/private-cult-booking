@@ -101,10 +101,8 @@ public class BookingService {
 		headers.add("cookie", cookie);
 		HttpEntity entity = new HttpEntity(headers);
 		String classeslisturl = classListApi.replace("centreid", centreID);
-		System.out.println(classeslisturl);
 		ResponseEntity<String> response = restTemplate.exchange(classeslisturl, HttpMethod.GET, entity, String.class);
 		String result = response.getBody().toString();
-		System.out.println(result);
 		ClassesDao res = new ClassesDao();
 		try {
 			res = new ObjectMapper().readValue(response.getBody().toString(), ClassesDao.class);
@@ -124,6 +122,11 @@ public class BookingService {
 					}
 				});
 			});
+		});
+		
+		System.out.println("Filtered classes");
+		filteredClasses.forEach(classes->{
+			System.out.println(classes.toString());
 		});
 
 		HashMap<String,String> hm = new HashMap<>();
@@ -145,6 +148,10 @@ public class BookingService {
 				
 			}
 		}
+		System.out.println("ToBook classes");
+		toBook.forEach(classes->{
+			System.out.println(classes.toString());
+		});
 		
 		if (toBook.size() > 7) {
 			System.out.println("more than 7 classes found");
@@ -165,10 +172,13 @@ public class BookingService {
 			HttpEntity entity = new HttpEntity(headers);
 			ResponseEntity<String> response = restTemplate.exchange(bookingApi, HttpMethod.POST, entity, String.class);
 			String result = response.getBody().toString();
+			System.out.println(classtoBook.getId());
+			System.out.println(result);
 			try {
 				BookingResponse res = new ObjectMapper().readValue(response.getBody().toString(),
 						BookingResponse.class);
 				bookingResponses.add(res);
+				System.out.println(res.toString());
 			} catch (JsonMappingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
