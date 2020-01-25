@@ -11,8 +11,12 @@ public class ScheduledService {
 	BookingService bookingService;
 	
 
-	@Scheduled(cron="0 15 23 * * *",zone = "GMT+5:30")
+	@Scheduled(cron="0 23 23 * * *",zone = "GMT+5:30")
 	public void book() {
 		bookingService.book();
+	}
+	@Scheduled(cron="0 0 8 * * *",zone = "GMT+5:30")
+	public void book() {
+		System.out.println("check log");
 	}
 }
