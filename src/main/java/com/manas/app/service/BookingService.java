@@ -171,6 +171,7 @@ public class BookingService {
 				headers.add("apikey", apiKey);
 				headers.add("cookie", cookie);
 				HttpEntity entity = new HttpEntity(headers);
+				System.out.println(bookingApi);
 				ResponseEntity<String> response = restTemplate.exchange(bookingApi, HttpMethod.POST, entity, String.class);
 				String result = response.getBody().toString();
 				System.out.println(classtoBook.getId());
@@ -212,8 +213,12 @@ public class BookingService {
 		for (int i = 0; i < confMsg.size(); i++) {
 			emailBody += "<p>" + confMsg.get(i) + ".</p>";
 		}
-
-		sendEMAIL(emailBody, message);
+		try {
+			sendEMAIL(emailBody, message);	
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("Completed");
 
 	}
 
