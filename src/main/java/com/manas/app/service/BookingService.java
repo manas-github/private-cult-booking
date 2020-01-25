@@ -165,16 +165,15 @@ public class BookingService {
 		List<BookingResponse> bookingResponses = new ArrayList<>();
 		classes.forEach(classtoBook -> {
 			try {
-				bookingApi = bookingApi.replace("classid", classtoBook.getId());
+				String bookingApiWithId = bookingApi.replace("classid", classtoBook.getId());
 				HttpHeaders headers = new HttpHeaders();
 				headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 				headers.add("apikey", apiKey);
 				headers.add("cookie", cookie);
 				HttpEntity entity = new HttpEntity(headers);
 				System.out.println(bookingApi);
-				ResponseEntity<String> response = restTemplate.exchange(bookingApi, HttpMethod.POST, entity, String.class);
+				ResponseEntity<String> response = restTemplate.exchange(bookingApiWithId, HttpMethod.POST, entity, String.class);
 				String result = response.getBody().toString();
-				System.out.println(classtoBook.getId());
 				System.out.println(result);
 				try {
 					BookingResponse res = new ObjectMapper().readValue(response.getBody().toString(),
