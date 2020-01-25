@@ -11,7 +11,7 @@ public class ScheduledService {
 	BookingService bookingService;
 	
 
-	@Scheduled(cron="0 0 22 1/1 * ? *")
+	@Scheduled(cron="0 0 22 * * *")
 	public void book() {
 		bookingService.book();
 	}
