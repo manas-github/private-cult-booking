@@ -164,28 +164,34 @@ public class BookingService {
 	public void bookNow(List<Classes> classes) {
 		List<BookingResponse> bookingResponses = new ArrayList<>();
 		classes.forEach(classtoBook -> {
-			bookingApi = bookingApi.replace("classid", classtoBook.getId());
-			HttpHeaders headers = new HttpHeaders();
-			headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-			headers.add("apikey", apiKey);
-			headers.add("cookie", cookie);
-			HttpEntity entity = new HttpEntity(headers);
-			ResponseEntity<String> response = restTemplate.exchange(bookingApi, HttpMethod.POST, entity, String.class);
-			String result = response.getBody().toString();
-			System.out.println(classtoBook.getId());
-			System.out.println(result);
 			try {
-				BookingResponse res = new ObjectMapper().readValue(response.getBody().toString(),
-						BookingResponse.class);
-				bookingResponses.add(res);
-				System.out.println(res.toString());
-			} catch (JsonMappingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (JsonProcessingException e) {
-				// TODO Auto-generated catch block
+				bookingApi = bookingApi.replace("classid", classtoBook.getId());
+				HttpHeaders headers = new HttpHeaders();
+				headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+				headers.add("apikey", apiKey);
+				headers.add("cookie", cookie);
+				HttpEntity entity = new HttpEntity(headers);
+				ResponseEntity<String> response = restTemplate.exchange(bookingApi, HttpMethod.POST, entity, String.class);
+				String result = response.getBody().toString();
+				System.out.println(classtoBook.getId());
+				System.out.println(result);
+				try {
+					BookingResponse res = new ObjectMapper().readValue(response.getBody().toString(),
+							BookingResponse.class);
+					bookingResponses.add(res);
+					System.out.println(res.toString());
+				} catch (JsonMappingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (JsonProcessingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
 				e.printStackTrace();
 			}
+
 		});
 		sendConfirmationMailAndSms(bookingResponses);
 	}
