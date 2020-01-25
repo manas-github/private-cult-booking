@@ -134,15 +134,16 @@ public class BookingService {
 		hm.put(DayOfWeek.SUNDAY.name(),sundayTime );
 
 		List<Classes> toBook = new ArrayList<>();
-		filteredClasses.forEach(classes -> {
-			if (Integer.parseInt(classes.getAvailableSeats()) > 0 && classes.getCentreID().equals(centreID)
-					&&  classes.getState().equals("AVAILABLE")) {
-				if(hm.get(convertDateToDay(classes.getDate())).equals(classes.getStartTime())) {
-					toBook.add(classes);
+		for(int i=0;i<filteredClasses.size();i++) {
+			if (Integer.parseInt(filteredClasses.get(i).getAvailableSeats()) > 0 
+					&&  filteredClasses.get(i).getState().equals("AVAILABLE")) {
+				if(hm.get(convertDateToDay(filteredClasses.get(i).getDate())).equals(filteredClasses.get(i).getStartTime())) {
+					toBook.add(filteredClasses.get(i));
 				}
 				
 			}
-		});
+		}
+		
 		if (toBook.size() > 7) {
 			System.out.println("more than 7 classes found");
 		} else {
