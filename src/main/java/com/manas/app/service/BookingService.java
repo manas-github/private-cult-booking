@@ -101,8 +101,10 @@ public class BookingService {
 		headers.add("cookie", cookie);
 		HttpEntity entity = new HttpEntity(headers);
 		String classeslisturl = classListApi.replace("centreid", centreID);
+		System.out.println(classeslisturl);
 		ResponseEntity<String> response = restTemplate.exchange(classeslisturl, HttpMethod.GET, entity, String.class);
 		String result = response.getBody().toString();
+		System.out.println(result);
 		ClassesDao res = new ClassesDao();
 		try {
 			res = new ObjectMapper().readValue(response.getBody().toString(), ClassesDao.class);
