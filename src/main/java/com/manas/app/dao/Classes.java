@@ -74,6 +74,12 @@ public class Classes {
 	public void setState(String state) {
 		this.state = state;
 	}
+	@Override
+	public String toString() {
+		return "Classes [id=" + id + ", productType=" + productType + ", date=" + date + ", startTime=" + startTime
+				+ ", endTime=" + endTime + ", workoutId=" + workoutId + ", centreID=" + centreID + ", availableSeats="
+				+ availableSeats + ", workoutName=" + workoutName + ", state=" + state + "]";
+	}
 	String id;
 	String productType;
 	String date;
