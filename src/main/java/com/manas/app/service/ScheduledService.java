@@ -15,8 +15,4 @@ public class ScheduledService {
 	public void book() {
 		bookingService.book();
 	}
-	@Scheduled(cron="0 0 8 * * *",zone = "GMT+5:30")
-	public void cronCheck() {
-		System.out.println("check log");
-	}
 }
