@@ -113,11 +113,12 @@ public class BookingService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		List<String> workoutsToBook = Arrays.asList(bookingWorkoutName.split(","));
 		List<Classes> filteredClasses = new ArrayList<Classes>();
 		res.getClassByDateList().forEach(classbyDate -> {
 			classbyDate.getClassByTimeList().forEach(classByTime -> {
 				classByTime.getClasses().forEach(classes -> {
-					if (classes.getWorkoutName().equals(bookingWorkoutName)) {
+					if (workoutsToBook.contains(classes.getWorkoutName())) {
 						filteredClasses.add(classes);
 					}
 				});
@@ -129,20 +130,20 @@ public class BookingService {
 			System.out.println(classes.toString());
 		});
 
-		HashMap<String,String> hm = new HashMap<>();
-		hm.put(DayOfWeek.MONDAY.name(), mondayTime);
-		hm.put(DayOfWeek.TUESDAY.name(), tuesdayTime);
-		hm.put(DayOfWeek.WEDNESDAY.name(),wednesdayTime );
-		hm.put(DayOfWeek.THURSDAY.name(),thursdayTime );
-		hm.put(DayOfWeek.FRIDAY.name(), fridayTime);
-		hm.put(DayOfWeek.SATURDAY.name(),saturdayTime);
-		hm.put(DayOfWeek.SUNDAY.name(),sundayTime );
+		HashMap<String,List<String>> hm = new HashMap<>();
+		hm.put(DayOfWeek.MONDAY.name(), Arrays.asList(mondayTime.split(",")));
+		hm.put(DayOfWeek.TUESDAY.name(), Arrays.asList(tuesdayTime.split(",")));
+		hm.put(DayOfWeek.WEDNESDAY.name(),Arrays.asList(wednesdayTime.split(",")) );
+		hm.put(DayOfWeek.THURSDAY.name(),Arrays.asList(thursdayTime.split(",")));
+		hm.put(DayOfWeek.FRIDAY.name(), Arrays.asList(fridayTime.split(",")));
+		hm.put(DayOfWeek.SATURDAY.name(),Arrays.asList(saturdayTime.split(",")));
+		hm.put(DayOfWeek.SUNDAY.name(),Arrays.asList(sundayTime.split(",")) );
 
 		List<Classes> toBook = new ArrayList<>();
 		for(int i=0;i<filteredClasses.size();i++) {
 			if (Integer.parseInt(filteredClasses.get(i).getAvailableSeats()) > 0 
 					&&  filteredClasses.get(i).getState().equals("AVAILABLE")) {
-				if(hm.get(convertDateToDay(filteredClasses.get(i).getDate())).equals(filteredClasses.get(i).getStartTime())) {
+				if(hm.get(convertDateToDay(filteredClasses.get(i).getDate())).contains(filteredClasses.get(i).getStartTime())) {
 					toBook.add(filteredClasses.get(i));
 				}
 				
@@ -154,6 +155,7 @@ public class BookingService {
 		});
 		
 		if (toBook.size() > 7) {
+			bookNow(toBook.subList(0, 6));
 			System.out.println("more than 7 classes found");
 		} else {
 			bookNow(toBook);
