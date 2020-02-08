@@ -239,12 +239,7 @@ public class BookingService {
 
 	private void sendSMS(String msg) {
 		// TODO Auto-generated method stub
-		HttpResponse response = Unirest.post("https://www.fast2sms.com/dev/bulk")
-				.header("authorization", "FhLS3qKj4jFejhMyj8MXIMhY7Nzupb7dQJeNjYgXovjBK1HRVdtTc0kGxHRU")
-				.header("Content-Type", "application/x-www-form-urlencoded")
-				.body("sender_id=FSTSMS&message=" + msg + "&language=english&route=p&numbers=" + mobile).asString();
-		System.out.println(response.getBody().toString());
-		System.out.print(response.getStatus()+response.getStatusText());
+		
 
 	}
 	
